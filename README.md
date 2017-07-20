@@ -14,9 +14,7 @@ And then execute:
 
     $ bundle
 
-Or install it yourself as:
-
-    $ gem install unique_codes
+## Usage
     
     # initialize 
     
@@ -29,10 +27,6 @@ Or install it yourself as:
     # to explicitly deallocate the code
     
     UniqueCode.free(code)
-
-## Usage
-
-TODO: Write usage instructions here
 
 ## Development
 
