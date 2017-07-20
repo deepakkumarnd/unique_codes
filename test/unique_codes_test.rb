@@ -1,51 +1,51 @@
-require 'test_helper'
+require_relative 'test_helper'
 
-class UniqueCodesTest < Minitest::Test
+describe UniqueCode do
   def test_that_it_has_a_version_number
-    refute_nil ::UniqueCodes::VERSION
+    refute_nil ::UniqueCode::VERSION
   end
 
   def setup
-    @queue = UniqueCodes::Queue.new
+    UniqueCode.init
   end
 
-  def test_it_has_9999_items
-    assert_equal @queue.items.size, 10000
+  it 'should have 10000 items on init' do
+    assert_equal 10000, UniqueCode.current_size
   end
 
-  def test_returns_current_number_of_items
-    assert_equal @queue.size, 10000
+  it 'should have no duplicate items' do
+    assert_equal UniqueCode.current_size, UniqueCode.all_codes.uniq.count
   end
 
-  def test_get_code_from_queue
-    1000.times do
-      old_size = @queue.size
-      assert @queue.get
-      assert_equal @queue.size, old_size - 1
+  it 'returns a single code' do
+    size1 = UniqueCode.current_size
+    UniqueCode.get
+    size2 = UniqueCode.current_size
+    assert_equal 1, size1 - size2
+  end
+
+  it 'returned item will be reserved' do
+    code = UniqueCode.get
+    assert_equal true, UniqueCode.reserved_codes.include?(code)
+  end
+
+  it 'should reinsert a freed item' do
+    code = UniqueCode.get
+    assert_equal false, UniqueCode.all_codes.include?(code)
+    UniqueCode.free(code)
+    assert_equal true, UniqueCode.all_codes.include?(code)
+  end
+
+  it 'has the same total number of codes at any point of time' do
+    rand(100).times do
+      UniqueCode.get
+      assert_equal 10000, UniqueCode.current_size + UniqueCode.reserved_codes.size
     end
   end
 
-  def test_put_item_into_queue
-    refute @queue.put('0000')
-    item = @queue.get
-    assert_equal true, @queue.put(item)
-  end
-
-  def test_should_not_push_duplicates
-    item = @queue.get
-
-    val = rand(1000..9999)
-
-    while (val.to_s == item)
-      val = rand(1000, 9999)
-    end
-
-    assert_equal false, @queue.put('9999')
-  end
-
-  def test_should_refill_if_queue_become_empty
-    10001.times do
-      assert @queue.get
+  it 'raises error if there are no more code left to allocate' do
+    assert_raises UniqueCode::CodeUnderflowError do
+      10001.times { UniqueCode.get }
     end
   end
 end

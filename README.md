@@ -1,8 +1,6 @@
 # UniqueCodes
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/unique_codes`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+Generate unique four digit numeric codes.
 
 ## Installation
 
@@ -19,6 +17,14 @@ And then execute:
 Or install it yourself as:
 
     $ gem install unique_codes
+    
+    # get a unique 4 digit code
+    
+    code = UniqueCode.get
+    
+    # to explicitly deallocate the code
+    
+    UniqueCode.free(code)
 
 ## Usage
 

@@ -1,42 +1,51 @@
 require "unique_codes/version"
 
-module UniqueCodes
-  LENGTH = 4
+require 'singleton'
 
-  class Queue
+class UniqueCode
 
-    attr_accessor :items
+  class CodeUnderflowError < StandardError; end
 
-    def initialize
+  module ClassMethods
+
+    def init
       @items = [*'0000'..'9999'].shuffle
+      @reserved = []
     end
 
-    def get
-      fill_queue if @items.empty?
-      @items.shift
-    end
-
-    def put(item)
-      if (size < 10000) && !@items.include?(item)
-        @items.push(item)
-        true
-      else
-        false
-      end
-    end
-
-    def fill_queue
-      10000.times do
-        put([*'a'..'z'].shuffle.take(4).join(''))
-      end
-    end
-
-    def size
+    def current_size
       @items.size
     end
 
-    def list
-      p @items
+    def all_codes
+      @items.dup
     end
+
+    def get
+      index = rand(0..current_size)
+      code = @items[index]
+      raise CodeUnderflowError if code.nil?
+      @items.delete_at(index)
+      @reserved << code
+      code
+    end
+
+    def reserved_codes
+      @reserved.dup
+    end
+
+    def free(code)
+      @reserved.delete(code)
+      add(code)
+    end
+
+    def add(code)
+      return if @items.include? code
+      @items << code
+    end
+
   end
+
+  include Singleton
+  extend ClassMethods
 end
