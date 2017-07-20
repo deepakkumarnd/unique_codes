@@ -18,6 +18,10 @@ Or install it yourself as:
 
     $ gem install unique_codes
     
+    # initialize 
+    
+    UniqueCode.init
+    
     # get a unique 4 digit code
     
     code = UniqueCode.get
