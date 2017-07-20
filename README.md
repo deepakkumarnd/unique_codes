@@ -9,7 +9,7 @@ TODO: Delete this and the text above, and describe your gem
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'unique_codes'
+gem 'unique_codes', source: 'git@github.com:kumarn33/unique_codes.git'
 ```
 
 And then execute:
