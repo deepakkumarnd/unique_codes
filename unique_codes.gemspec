@@ -5,7 +5,7 @@ require 'unique_codes/version'
 
 Gem::Specification.new do |spec|
   spec.name          = "unique_codes"
-  spec.version       = UniqueCodes::VERSION
+  spec.version       = UniqueCode::VERSION
   spec.authors       = ["Deepak Kumar"]
   spec.email         = ["deepakkumarnd@gmail.com"]
 
@@ -33,4 +33,6 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "bundler", "~> 1.13"
   spec.add_development_dependency "rake", "~> 10.0"
   spec.add_development_dependency "minitest", "~> 5.0"
+  spec.add_development_dependency "m", "~> 1.5.0"
+
 end

@@ -1,4 +1,4 @@
-require "unique_codes/version"
+require 'unique_codes/version'
 
 require 'singleton'
 
@@ -22,8 +22,9 @@ class UniqueCode
     end
 
     def get
-      index = rand(0..current_size)
-      code = @items[index]
+      index = rand(0...current_size)
+      raise CodeUnderflowError if index.nil?
+      code  = @items[index]
       raise CodeUnderflowError if code.nil?
       @items.delete_at(index)
       @reserved << code

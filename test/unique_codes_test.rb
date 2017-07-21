@@ -5,7 +5,7 @@ describe UniqueCode do
     refute_nil ::UniqueCode::VERSION
   end
 
-  def setup
+  before do
     UniqueCode.init
   end
 
