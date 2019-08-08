@@ -1,4 +1,4 @@
-require 'unique_codes/version'
+require_relative 'unique_codes/version'
 
 require 'singleton'
 
